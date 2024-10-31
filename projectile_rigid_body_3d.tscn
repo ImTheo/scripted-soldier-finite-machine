@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://c0vawikvinqiw"]
+
+[ext_resource type="Script" path="res://projectile_rigid_body_3d.gd" id="1_exevh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jt3bj"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_svhok"]
+top_radius = 0.0
+height = 1.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_novqj"]
+radius = 0.1
+height = 0.5
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_jtc34"]
+radius = 0.1
+
+[node name="ProjectileRigidBody3D" type="RigidBody3D"]
+collision_mask = 2
+mass = 0.01
+gravity_scale = 0.0
+script = ExtResource("1_exevh")
+speed = 30.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_jt3bj")
+mesh = SubResource("CylinderMesh_svhok")
+
+[node name="HitArea3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitArea3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_novqj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
+shape = SubResource("SphereShape3D_jtc34")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="HitArea3D" to="." method="_on_hit_area_3d_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

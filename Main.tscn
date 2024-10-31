@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=3 uid="uid://dibd7rysl1lxp"]
+
+[ext_resource type="PackedScene" uid="uid://bsxffdx8p0wgd" path="res://soldier_scripted_finite_machine.tscn" id="1_685jv"]
+[ext_resource type="Script" path="res://camera_3d.gd" id="2_x1257"]
+[ext_resource type="PackedScene" uid="uid://c0vawikvinqiw" path="res://projectile_rigid_body_3d.tscn" id="3_ogb77"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4sqs2"]
+size = Vector3(102, 2, 60)
+
+[sub_resource type="BoxMesh" id="BoxMesh_76jtb"]
+size = Vector3(100, 2, 60)
+
+[sub_resource type="InputEventAction" id="InputEventAction_gannk"]
+action = &"up_2"
+pressed = true
+
+[sub_resource type="InputEventAction" id="InputEventAction_hi8sg"]
+action = &"down_2"
+
+[sub_resource type="InputEventAction" id="InputEventAction_cn60g"]
+action = &"left_2"
+
+[sub_resource type="InputEventAction" id="InputEventAction_xpg8x"]
+action = &"right_2"
+
+[node name="Main" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, -1)
+light_energy = 1.131
+
+[node name="CameraPivot" type="Marker3D" parent="."]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, -11, 24, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(-4.22219e-08, 0.866026, -0.5, 1.13133e-08, 0.5, 0.866026, 1, 3.09086e-08, -3.09086e-08, -16, 17, 0)
+script = ExtResource("2_x1257")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, -2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_4sqs2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_76jtb")
+
+[node name="Soldier" parent="." instance=ExtResource("1_685jv")]
+velocity = 500
+
+[node name="Soldier2" parent="." instance=ExtResource("1_685jv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 7, -33)
+velocity = 500
+controls = Array[InputEventAction]([SubResource("InputEventAction_gannk"), SubResource("InputEventAction_hi8sg"), SubResource("InputEventAction_cn60g"), SubResource("InputEventAction_xpg8x")])
+
+[node name="Soldier3" parent="." instance=ExtResource("1_685jv")]
+transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, -25, 7, -23)
+velocity = 500
+controls = Array[InputEventAction]([])
+
+[node name="ProjectileRigidBody3D" parent="." instance=ExtResource("3_ogb77")]
+transform = Transform3D(-0.965926, -0.12941, 0.224144, -0.183013, 0.953879, -0.237953, -0.183013, -0.270866, -0.94506, 8, 13, -18)
