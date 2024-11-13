@@ -17,6 +17,7 @@ height = 0.5
 radius = 0.1
 
 [node name="ProjectileRigidBody3D" type="RigidBody3D"]
+collision_layer = 0
 collision_mask = 2
 mass = 0.01
 gravity_scale = 0.0
@@ -29,6 +30,7 @@ material_override = SubResource("StandardMaterial3D_jt3bj")
 mesh = SubResource("CylinderMesh_svhok")
 
 [node name="HitArea3D" type="Area3D" parent="."]
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitArea3D"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)

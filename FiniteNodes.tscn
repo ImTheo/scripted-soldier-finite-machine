@@ -1,0 +1,77 @@
+[gd_scene load_steps=14 format=3 uid="uid://ieeisexwrwg3"]
+
+[ext_resource type="Script" path="res://camera_3d.gd" id="1_tftid"]
+[ext_resource type="PackedScene" uid="uid://c0vawikvinqiw" path="res://projectile_rigid_body_3d.tscn" id="3_lovho"]
+[ext_resource type="PackedScene" uid="uid://mdaei6bteqgn" path="res://soldier_node_finite_machine/soldier_nodes_finite_machine.tscn" id="3_y7d35"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4sqs2"]
+size = Vector3(102, 2, 60)
+
+[sub_resource type="BoxMesh" id="BoxMesh_76jtb"]
+size = Vector3(100, 2, 60)
+
+[sub_resource type="InputEventAction" id="InputEventAction_yqm40"]
+action = &"up_2"
+pressed = true
+
+[sub_resource type="InputEventAction" id="InputEventAction_syku5"]
+action = &"down_2"
+pressed = true
+
+[sub_resource type="InputEventAction" id="InputEventAction_t5oix"]
+action = &"left_2"
+pressed = true
+
+[sub_resource type="InputEventAction" id="InputEventAction_nppte"]
+action = &"right_2"
+pressed = true
+
+[sub_resource type="InputEventAction" id="InputEventAction_41v1v"]
+action = &"up_1"
+pressed = true
+
+[sub_resource type="InputEventAction" id="InputEventAction_8l4ws"]
+action = &"down_1"
+pressed = true
+
+[sub_resource type="InputEventAction" id="InputEventAction_yhlvr"]
+action = &"left_1"
+pressed = true
+
+[sub_resource type="InputEventAction" id="InputEventAction_br81t"]
+action = &"right_1"
+pressed = true
+
+[node name="Main" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, -1)
+light_energy = 1.131
+
+[node name="CameraPivot" type="Marker3D" parent="."]
+transform = Transform3D(0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0, 1, -11, 24, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
+transform = Transform3D(-4.22219e-08, 0.866026, -0.5, 1.13133e-08, 0.5, 0.866026, 1, 3.09086e-08, -3.09086e-08, -16, 17, 0)
+script = ExtResource("1_tftid")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, -2.98023e-08, 0, 2.98023e-08, 1.2, 11, -2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_4sqs2")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0, 0)
+mesh = SubResource("BoxMesh_76jtb")
+
+[node name="ProjectileRigidBody3D" parent="." instance=ExtResource("3_lovho")]
+transform = Transform3D(-0.965926, -0.12941, 0.224144, -0.183013, 0.953879, -0.237953, -0.183013, -0.270866, -0.94506, 8, 13, -18)
+
+[node name="Soldier" parent="." instance=ExtResource("3_y7d35")]
+transform = Transform3D(1, 0, 0, 0, -3.61999e-06, 0.999998, 0, -0.999999, -3.61998e-06, 0, 0, 0)
+controls = Array[InputEventAction]([SubResource("InputEventAction_yqm40"), SubResource("InputEventAction_syku5"), SubResource("InputEventAction_t5oix"), SubResource("InputEventAction_nppte")])
+
+[node name="Soldier2" parent="." instance=ExtResource("3_y7d35")]
+transform = Transform3D(1, 0, 0, 0, -7.19625e-06, 0.999997, 0, -0.999997, -7.19624e-06, 56, 8, 0)
+controls = Array[InputEventAction]([SubResource("InputEventAction_41v1v"), SubResource("InputEventAction_8l4ws"), SubResource("InputEventAction_yhlvr"), SubResource("InputEventAction_br81t")])

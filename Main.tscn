@@ -37,7 +37,7 @@ transform = Transform3D(-4.22219e-08, 0.866026, -0.5, 1.13133e-08, 0.5, 0.866026
 script = ExtResource("2_x1257")
 
 [node name="Ground" type="StaticBody3D" parent="."]
-transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, 0, -2, 0)
+transform = Transform3D(1.2, 0, 0, 0, 1.2, -2.98023e-08, 0, 2.98023e-08, 1.2, 11, -2, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("BoxShape3D_4sqs2")
@@ -46,17 +46,13 @@ shape = SubResource("BoxShape3D_4sqs2")
 mesh = SubResource("BoxMesh_76jtb")
 
 [node name="Soldier" parent="." instance=ExtResource("1_685jv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
 velocity = 500
 
 [node name="Soldier2" parent="." instance=ExtResource("1_685jv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 7, -33)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 7, -27)
 velocity = 500
 controls = Array[InputEventAction]([SubResource("InputEventAction_gannk"), SubResource("InputEventAction_hi8sg"), SubResource("InputEventAction_cn60g"), SubResource("InputEventAction_xpg8x")])
-
-[node name="Soldier3" parent="." instance=ExtResource("1_685jv")]
-transform = Transform3D(0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, -25, 7, -23)
-velocity = 500
-controls = Array[InputEventAction]([])
 
 [node name="ProjectileRigidBody3D" parent="." instance=ExtResource("3_ogb77")]
 transform = Transform3D(-0.965926, -0.12941, 0.224144, -0.183013, 0.953879, -0.237953, -0.183013, -0.270866, -0.94506, 8, 13, -18)

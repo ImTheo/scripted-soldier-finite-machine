@@ -12,9 +12,15 @@ config_version=5
 
 config/name="Soldiers Finite State Machine"
 config/tags=PackedStringArray("4.3")
-run/main_scene="res://Main.tscn"
+run/main_scene="res://FiniteNodes.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[file_customization]
+
+folder_colors={
+"res://soldier_node_finite_machine/": "green"
+}
 
 [input]
 
