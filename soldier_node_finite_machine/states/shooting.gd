@@ -7,11 +7,19 @@ func enter(_previus_state_path)->void:
 
 func physics_update(delta:float)->void:
 	if not soldier.has_collisions():
-		#(get_parent() as StateMachine)._transition_to_next_state(states[States.STANDING])
 		finished.emit(states[States.STANDING])
+		return
 	elif not soldier.is_on_floor():
-		#(get_parent() as StateMachine)._transition_to_next_state(states[States.FALING])
 		finished.emit(states[States.FALING])
+		return
 	elif soldier.health < 0:
-		#(get_parent() as StateMachine)._transition_to_next_state(states[States.DYING])
 		finished.emit(states[States.DYING])
+		return
+		
+	var target:Soldier = soldier.get_collision()
+	var target_position = target.global_position
+	var direction = (target_position - soldier.global_position).normalized()
+	var target_angle = atan2(direction.x, direction.z)
+	var angle_diff = target_angle - soldier.rotation.y
+	angle_diff = wrapf(angle_diff, -PI, PI)
+	soldier.rotate_y(angle_diff)
