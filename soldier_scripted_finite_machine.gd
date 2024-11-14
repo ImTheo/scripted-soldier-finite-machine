@@ -1,39 +1,33 @@
 class_name SoldierFiniteMachineScripted
 extends Node3D
 
-enum States{STANDING,FALING,WALKING, SHOOTING, DYING}
 var gravity = 0
 var rotation_direction: float
-var state: States = States.STANDING: set = set_state
-var text: String
 var movement_velocity: Vector3
 @onready var soldier: Soldier = %Soldier as Soldier
-@onready var label_3d: Label3D = %Label3D
-@export var velocity : int = 5
-@export var controls:Array[InputEventAction]
+
+var state: States = States.STANDING: set = set_state
+enum States{STANDING,FALING,WALKING, SHOOTING, DYING}
 enum Controls{UP,DOWN,LEFT,RIGHT} 
 
-
 func _process(delta: float) -> void:
-	#Update Soldier Labels
-	text = "State: %s ,
-	health: %s" 
-	label_3d.text = text%[[States.keys()[state]],soldier.health]
-	
-	_handle_controls(delta)
-	#Update State
+	soldier.show_state(States.keys()[state])
+	_handle_state_transitions(delta)
+	_handle_current_state(delta)
+
+func _handle_state_transitions(_delta):
 	match state:
 		States.STANDING:
 			if not soldier.is_on_floor():
 				state = States.FALING
-			elif _is_control_pressed():
+			elif soldier.is_control_pressed():
 				state = States.WALKING
 			elif soldier.has_collisions():
 				state = States.SHOOTING
 			elif soldier.health < 0:
 				state = States.DYING
 		States.WALKING:
-			if not _is_control_pressed():
+			if not soldier.is_control_pressed():
 				state = States.STANDING
 			elif not soldier.is_on_floor():
 				state = States.FALING
@@ -49,6 +43,12 @@ func _process(delta: float) -> void:
 				state = States.STANDING
 			elif soldier.health < 0:
 				state = States.DYING
+
+func _handle_current_state(delta):
+	if state == States.FALING:
+		_handle_gravity(delta)
+	if state == States.WALKING:
+		_handle_controls(delta)
 	if state == States.SHOOTING:
 		var target:Soldier = soldier.get_collision()
 		var target_position = target.global_position
@@ -58,24 +58,19 @@ func _process(delta: float) -> void:
 		angle_diff = wrapf(angle_diff, -PI, PI)
 		soldier.rotate_y(angle_diff)
 	soldier.move_and_slide()
-	_handle_gravity(delta)
-	
-func _is_control_pressed()->bool:
-	for i in controls:
-		if Input.is_action_pressed(i.action):
-			return true
-	return false
 
-#Handle State Transition
 func set_state(new_state:States):
 	var prev_state := state
 	state = new_state
-	if (prev_state == States.STANDING or prev_state == States.WALKING) and new_state == States.FALING:
-		#soldier.velocity = Vector3(0,-20,0)
-		pass
-	if prev_state == States.STANDING and new_state == States.WALKING:
+	if	(	
+			prev_state == States.STANDING 
+			and new_state == States.WALKING
+		):	
 		soldier.velocity = movement_velocity
-	if prev_state == States.WALKING and new_state == States.STANDING:
+	if 	(	
+			prev_state == States.WALKING 
+			and new_state == States.STANDING
+		):
 		soldier.velocity = Vector3(0,0,0)
 	if new_state == States.SHOOTING: 
 		soldier.velocity = Vector3.ZERO
@@ -83,18 +78,15 @@ func set_state(new_state:States):
 		soldier.collision_layer = 0
 	soldier.play_animation(state)
 	
-	
 func _handle_controls(delta):
-	if controls.is_empty():
+	if soldier.controls.is_empty():
 		return
 	var input := Vector3.ZERO
-	input.x = Input.get_axis(controls[Controls.DOWN].action,controls[Controls.UP].action)
-	input.z = Input.get_axis(controls[Controls.LEFT].action,controls[Controls.RIGHT].action)
+	input.x = Input.get_axis(soldier.controls[soldier.Controls.DOWN].action,soldier.controls[soldier.Controls.UP].action)
+	input.z = Input.get_axis(soldier.controls[soldier.Controls.LEFT].action,soldier.controls[soldier.Controls.RIGHT].action)
 	if input.length() > 1:
 		input = input.normalized()
-
-	movement_velocity = input * velocity * delta
-
+	movement_velocity = input * 1000 * delta
 	if state == States.WALKING:
 		soldier.velocity = movement_velocity
 		rotation_direction = Vector2(movement_velocity.z, movement_velocity.x).angle()

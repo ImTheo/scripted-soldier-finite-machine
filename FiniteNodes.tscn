@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ieeisexwrwg3"]
+[gd_scene load_steps=10 format=3 uid="uid://ieeisexwrwg3"]
 
 [ext_resource type="Script" path="res://camera_3d.gd" id="1_tftid"]
 [ext_resource type="PackedScene" uid="uid://c0vawikvinqiw" path="res://projectile_rigid_body_3d.tscn" id="3_lovho"]
@@ -10,36 +10,20 @@ size = Vector3(102, 2, 60)
 [sub_resource type="BoxMesh" id="BoxMesh_76jtb"]
 size = Vector3(100, 2, 60)
 
-[sub_resource type="InputEventAction" id="InputEventAction_yqm40"]
+[sub_resource type="InputEventAction" id="InputEventAction_nts7r"]
 action = &"up_2"
 pressed = true
 
-[sub_resource type="InputEventAction" id="InputEventAction_syku5"]
+[sub_resource type="InputEventAction" id="InputEventAction_j7e2m"]
 action = &"down_2"
 pressed = true
 
-[sub_resource type="InputEventAction" id="InputEventAction_t5oix"]
+[sub_resource type="InputEventAction" id="InputEventAction_5vrs5"]
 action = &"left_2"
 pressed = true
 
-[sub_resource type="InputEventAction" id="InputEventAction_nppte"]
+[sub_resource type="InputEventAction" id="InputEventAction_jufp1"]
 action = &"right_2"
-pressed = true
-
-[sub_resource type="InputEventAction" id="InputEventAction_41v1v"]
-action = &"up_1"
-pressed = true
-
-[sub_resource type="InputEventAction" id="InputEventAction_8l4ws"]
-action = &"down_1"
-pressed = true
-
-[sub_resource type="InputEventAction" id="InputEventAction_yhlvr"]
-action = &"left_1"
-pressed = true
-
-[sub_resource type="InputEventAction" id="InputEventAction_br81t"]
-action = &"right_1"
 pressed = true
 
 [node name="Main" type="Node3D"]
@@ -69,9 +53,8 @@ mesh = SubResource("BoxMesh_76jtb")
 transform = Transform3D(-0.965926, -0.12941, 0.224144, -0.183013, 0.953879, -0.237953, -0.183013, -0.270866, -0.94506, 8, 13, -18)
 
 [node name="Soldier" parent="." instance=ExtResource("3_y7d35")]
-transform = Transform3D(1, 0, 0, 0, -3.61999e-06, 0.999998, 0, -0.999999, -3.61998e-06, 0, 0, 0)
-controls = Array[InputEventAction]([SubResource("InputEventAction_yqm40"), SubResource("InputEventAction_syku5"), SubResource("InputEventAction_t5oix"), SubResource("InputEventAction_nppte")])
+transform = Transform3D(1, 0, 0, 0, -3.61999e-06, 0.999998, 0, -0.999999, -3.61998e-06, 42, 0, 0)
 
 [node name="Soldier2" parent="." instance=ExtResource("3_y7d35")]
-transform = Transform3D(1, 0, 0, 0, -7.19625e-06, 0.999997, 0, -0.999997, -7.19624e-06, 56, 8, 0)
-controls = Array[InputEventAction]([SubResource("InputEventAction_41v1v"), SubResource("InputEventAction_8l4ws"), SubResource("InputEventAction_yhlvr"), SubResource("InputEventAction_br81t")])
+transform = Transform3D(1, 0, 0, 0, -3.61999e-06, 0.999998, 0, -0.999999, -3.61998e-06, -10, 0, 0)
+controls = Array[InputEventAction]([SubResource("InputEventAction_nts7r"), SubResource("InputEventAction_j7e2m"), SubResource("InputEventAction_5vrs5"), SubResource("InputEventAction_jufp1")])

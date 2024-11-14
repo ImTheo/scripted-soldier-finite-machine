@@ -1,6 +1,5 @@
-class_name Soldier
+class_name Soldier extends CharacterBody3D
 
-extends CharacterBody3D
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var shape_cast_3d: ShapeCast3D = %ShapeCast3D
 @onready var shape_cast_capsule_3d: ShapeCast3D = %ShapeCastCapsule3D
@@ -10,11 +9,10 @@ extends CharacterBody3D
 @onready var label_3d: Label3D = %Label3D
 @export var controls:Array[InputEventAction]
 enum Controls{UP,DOWN,LEFT,RIGHT} 
-var text
 
 signal shooted
 
-func play_animation(state:SoldierFiniteMachineScripted.States):
+func play_animation(state):
 	match state:
 		SoldierFiniteMachineScripted.States.STANDING:
 			animation_player.play("idle_standing_up")
@@ -25,7 +23,7 @@ func play_animation(state:SoldierFiniteMachineScripted.States):
 		SoldierFiniteMachineScripted.States.DYING:
 			rotation.x = 0
 			animation_player.play("death")
-
+	
 func show_state(state:String):
 	label_3d.text = state
 

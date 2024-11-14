@@ -15,7 +15,6 @@ func physics_update(delta:float)->void:
 	elif soldier.health < 0:
 		finished.emit(states[States.DYING])
 		return
-		
 	var target:Soldier = soldier.get_collision()
 	var target_position = target.global_position
 	var direction = (target_position - soldier.global_position).normalized()
