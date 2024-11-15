@@ -6,12 +6,12 @@ var rotation_direction: float
 var movement_velocity: Vector3
 @onready var soldier: Soldier = %Soldier as Soldier
 
-var state: States = States.STANDING: set = set_state
-enum States{STANDING,FALING,WALKING, SHOOTING, DYING}
-enum Controls{UP,DOWN,LEFT,RIGHT} 
+var state: States = States.STANDING: set = _set_state
+enum States{STANDING,FALLING,WALKING, SHOOTING, DYING}
 
 func _process(delta: float) -> void:
-	soldier.show_state(States.keys()[state])
+	soldier.update_state_label(States.keys()[state])
+	
 	_handle_state_transitions(delta)
 	_handle_current_state(delta)
 
@@ -19,7 +19,7 @@ func _handle_state_transitions(_delta):
 	match state:
 		States.STANDING:
 			if not soldier.is_on_floor():
-				state = States.FALING
+				state = States.FALLING
 			elif soldier.is_control_pressed():
 				state = States.WALKING
 			elif soldier.has_collisions():
@@ -30,12 +30,12 @@ func _handle_state_transitions(_delta):
 			if not soldier.is_control_pressed():
 				state = States.STANDING
 			elif not soldier.is_on_floor():
-				state = States.FALING
+				state = States.FALLING
 			elif soldier.has_collisions():
 				state = States.SHOOTING
 			elif soldier.health < 0:
 				state = States.DYING
-		States.FALING:
+		States.FALLING:
 			if soldier.is_on_floor():
 				state = States.STANDING
 		States.SHOOTING:
@@ -45,33 +45,23 @@ func _handle_state_transitions(_delta):
 				state = States.DYING
 
 func _handle_current_state(delta):
-	if state == States.FALING:
+	if state == States.FALLING:
 		_handle_gravity(delta)
 	if state == States.WALKING:
 		_handle_controls(delta)
 	if state == States.SHOOTING:
-		var target:Soldier = soldier.get_collision()
-		var target_position = target.global_position
-		var direction = (target_position - soldier.global_position).normalized()
-		var target_angle = atan2(direction.x, direction.z)
-		var angle_diff = target_angle - soldier.rotation.y
-		angle_diff = wrapf(angle_diff, -PI, PI)
-		soldier.rotate_y(angle_diff)
+		_handle_shooting(delta)
+
 	soldier.move_and_slide()
 
-func set_state(new_state:States):
+func _set_state(new_state:States):
 	var prev_state := state
 	state = new_state
-	if	(	
-			prev_state == States.STANDING 
-			and new_state == States.WALKING
-		):	
-		soldier.velocity = movement_velocity
 	if 	(	
 			prev_state == States.WALKING 
 			and new_state == States.STANDING
 		):
-		soldier.velocity = Vector3(0,0,0)
+		soldier.velocity = Vector3.ZERO
 	if new_state == States.SHOOTING: 
 		soldier.velocity = Vector3.ZERO
 	if new_state == States.DYING:
@@ -80,7 +70,7 @@ func set_state(new_state:States):
 	
 func _handle_controls(delta):
 	if soldier.controls.is_empty():
-		return
+		printerr("agrega controles a ",soldier)
 	var input := Vector3.ZERO
 	input.x = Input.get_axis(soldier.controls[soldier.Controls.DOWN].action,soldier.controls[soldier.Controls.UP].action)
 	input.z = Input.get_axis(soldier.controls[soldier.Controls.LEFT].action,soldier.controls[soldier.Controls.RIGHT].action)
@@ -93,9 +83,18 @@ func _handle_controls(delta):
 		soldier.rotation.y = lerp_angle(soldier.rotation.y, rotation_direction, delta*10)
 	
 func _handle_gravity(delta):
-	if state != States.FALING:
+	if state != States.FALLING:
 		gravity = 0
 		soldier.velocity.y = 0
 		return
 	gravity += 50 * delta
 	soldier.velocity.y = -gravity
+	
+func _handle_shooting(delta):
+	var target:Soldier = soldier.get_collision()
+	var target_position = target.global_position
+	var direction = (target_position - soldier.global_position).normalized()
+	var target_angle = atan2(direction.x, direction.z)
+	var angle_diff = target_angle - soldier.rotation.y
+	angle_diff = wrapf(angle_diff, -PI, PI)
+	soldier.rotate_y(angle_diff)

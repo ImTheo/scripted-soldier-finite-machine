@@ -1109,12 +1109,12 @@ autoplay = "idle_standing_up"
 script = ExtResource("4_jto7p")
 initial_state = NodePath("Standing")
 
-[node name="Faling" type="Node" parent="SoldierFiniteMachine" node_paths=PackedStringArray("soldier")]
-script = ExtResource("5_4ihya")
-soldier = NodePath("../..")
-
 [node name="Standing" type="Node" parent="SoldierFiniteMachine" node_paths=PackedStringArray("soldier")]
 script = ExtResource("6_5t8gk")
+soldier = NodePath("../..")
+
+[node name="Falling" type="Node" parent="SoldierFiniteMachine" node_paths=PackedStringArray("soldier")]
+script = ExtResource("5_4ihya")
 soldier = NodePath("../..")
 
 [node name="Walking" type="Node" parent="SoldierFiniteMachine" node_paths=PackedStringArray("soldier")]
@@ -1129,11 +1129,9 @@ soldier = NodePath("../..")
 script = ExtResource("9_n4yyc")
 soldier = NodePath("../..")
 
-[node name="Node3D" type="Node3D" parent="."]
-
 [connection signal="shooted" from="." to="." method="_on_shooted"]
-[connection signal="finished" from="SoldierFiniteMachine/Faling" to="SoldierFiniteMachine" method="_transition_to_next_state"]
 [connection signal="finished" from="SoldierFiniteMachine/Standing" to="SoldierFiniteMachine" method="_transition_to_next_state"]
+[connection signal="finished" from="SoldierFiniteMachine/Falling" to="SoldierFiniteMachine" method="_transition_to_next_state"]
 [connection signal="finished" from="SoldierFiniteMachine/Walking" to="SoldierFiniteMachine" method="_transition_to_next_state"]
 [connection signal="finished" from="SoldierFiniteMachine/Dying" to="SoldierFiniteMachine" method="_transition_to_next_state"]
 [connection signal="finished" from="SoldierFiniteMachine/Shooting" to="SoldierFiniteMachine" method="_transition_to_next_state"]

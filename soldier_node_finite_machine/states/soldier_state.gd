@@ -1,8 +1,8 @@
-class_name SoldierState
-extends State
+#Boilerplate class for 
+class_name SoldierState extends State
 
-enum States{STANDING, FALING,WALKING, SHOOTING, DYING}
-const states :=["Standing","Faling","Walking","Shooting","Dying"]
+enum States{STANDING, FALLING,WALKING, SHOOTING, DYING}
+const states :=["Standing","Falling","Walking","Shooting","Dying"]
 
 @export var soldier:Soldier
 

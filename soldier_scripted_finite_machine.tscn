@@ -9,5 +9,4 @@ script = ExtResource("1_aqcwp")
 
 [node name="Soldier" parent="." instance=ExtResource("2_sw661")]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, -3.61999e-06, 0.999998, 0, -0.999999, -3.61998e-06, 0, 0, 0)
 bullet = ExtResource("3_1in5y")

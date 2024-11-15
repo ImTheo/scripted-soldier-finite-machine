@@ -3,8 +3,8 @@ var movement_velocity
 var rotation_direction: float
 
 func enter(previus_state_path)->void:
-	soldier.show_state("walking")
-	soldier.play_animation(SoldierFiniteMachineScripted.States.WALKING)
+	soldier.update_state_label("walking")
+	soldier.play_animation(States.WALKING)
 
 func physics_update(delta:float)->void:
 	#print("walking")
@@ -12,8 +12,8 @@ func physics_update(delta:float)->void:
 		# (get_parent() as StateMachine)._transition_to_next_state(states[States.STANDING])
 		finished.emit(states[States.STANDING])
 	if not soldier.is_on_floor():
-		# (get_parent() as StateMachine)._transition_to_next_state(states[States.FALING])
-		finished.emit(states[States.FALING])
+		# (get_parent() as StateMachine)._transition_to_next_state(states[States.FALLING])
+		finished.emit(states[States.FALLING])
 	elif soldier.has_collisions():
 		# (get_parent() as StateMachine)._transition_to_next_state(states[States.SHOOTING])
 		finished.emit(states[States.SHOOTING])

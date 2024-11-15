@@ -8,11 +8,11 @@ class_name Soldier extends CharacterBody3D
 @export var health: int = 100
 @onready var label_3d: Label3D = %Label3D
 @export var controls:Array[InputEventAction]
-enum Controls{UP,DOWN,LEFT,RIGHT} 
 
+enum Controls{UP,DOWN,LEFT,RIGHT} 
 signal shooted
 
-func play_animation(state):
+func play_animation(state)->void:
 	match state:
 		SoldierFiniteMachineScripted.States.STANDING:
 			animation_player.play("idle_standing_up")
@@ -23,8 +23,8 @@ func play_animation(state):
 		SoldierFiniteMachineScripted.States.DYING:
 			rotation.x = 0
 			animation_player.play("death")
-	
-func show_state(state:String):
+			
+func update_state_label(state:String):
 	label_3d.text = state
 
 func has_collisions() -> bool:
